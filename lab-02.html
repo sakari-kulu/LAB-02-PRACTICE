@@ -423,19 +423,90 @@ plastic_data_all %&gt;% head(n=10)</code></pre>
 <h2>Exercises</h2>
 <div id="ex-1." class="section level3">
 <h3>Ex 1.</h3>
-<pre class="r"><code># Write your code here to answer exercise 1</code></pre>
+<pre class="r"><code># Write your code here to answer exercise 1
+plastic_data_all %&gt;%
+  count(region)</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   region                              n
+##   &lt;chr&gt;                           &lt;int&gt;
+## 1 Africa                             43
+## 2 Asia                               39
+## 3 Europe                             31
+## 4 Latin America and The Caribbean    34
+## 5 North America                       2
+## 6 Oceania                            10</code></pre>
 </div>
 <div id="ex-2." class="section level3">
 <h3>Ex 2.</h3>
-<pre class="r"><code># Write your code here to answer exercise 2</code></pre>
+<pre class="r"><code># Write your code here to answer exercise 2
+plastic_data_all &lt;- plastic_data_all %&gt;%
+  mutate(total_mismanage_plastic = mismanaged_plastic * population)
+
+plastic_data_all %&gt;%
+  group_by(region) %&gt;%
+  summarise(avg_total = mean(total_mismanage_plastic))</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   region                          avg_total
+##   &lt;chr&gt;                               &lt;dbl&gt;
+## 1 Africa                            320729.
+## 2 Asia                             1026059.
+## 3 Europe                             38180.
+## 4 Latin America and The Caribbean   193450.
+## 5 North America                     147190.
+## 6 Oceania                            14577.</code></pre>
 </div>
 <div id="ex-3." class="section level3">
 <h3>Ex 3.</h3>
-<pre class="r"><code># Write your code here to answer exercise 3</code></pre>
+<pre class="r"><code># Write your code here to answer exercise 3
+plastic_data_all &lt;- plastic_data_all %&gt;%
+  mutate(pct_mismanaged_plastic_ocean = mismanaged_plastic_ocean/mismanaged_plastic) %&gt;% drop_na()
+
+plastic_data_all %&gt;% 
+  group_by(region) %&gt;%
+  summarise( med_reg = median(pct_mismanaged_plastic_ocean))</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   region                          med_reg
+##   &lt;chr&gt;                             &lt;dbl&gt;
+## 1 Africa                          0.00526
+## 2 Asia                            0.00974
+## 3 Europe                          0.00846
+## 4 Latin America and The Caribbean 0.0307 
+## 5 North America                   0.00959
+## 6 Oceania                         0.0158</code></pre>
+<pre class="r"><code>plastic_data_all %&gt;%
+  filter(code == &quot;SOM&quot;)</code></pre>
+<pre><code>## # A tibble: 0 × 8
+## # ℹ 8 variables: code &lt;chr&gt;, region &lt;chr&gt;, population &lt;dbl&gt;,
+## #   mismanaged_plastic_ocean &lt;dbl&gt;, name &lt;chr&gt;, mismanaged_plastic &lt;dbl&gt;,
+## #   total_mismanage_plastic &lt;dbl&gt;, pct_mismanaged_plastic_ocean &lt;dbl&gt;</code></pre>
 </div>
 <div id="ex-4." class="section level3">
 <h3>Ex 4.</h3>
-<pre class="r"><code># Write your code here to answer exercise 4</code></pre>
+<pre class="r"><code># Write your code here to answer exercise 4
+plastic_data_all &lt;- plastic_data_all %&gt;%
+  rename(
+    pop = population
+  )
+
+plastic_data_all &lt;- plastic_data_all %&gt;%
+  mutate(region = str_replace_all(region, &quot;Latin America and The Caribbean&quot;, &quot;LAC&quot;))
+
+plastic_data_all %&gt;% head(n = 10)</code></pre>
+<pre><code>## # A tibble: 10 × 8
+##    code  region       pop mismanaged_plastic_ocean name       mismanaged_plastic
+##    &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;                    &lt;dbl&gt; &lt;chr&gt;                   &lt;dbl&gt;
+##  1 AGO   Africa   31808.                   0.0270  Angola                  7.45 
+##  2 ALB   Europe    2876.                   0.543   Albania                24.2  
+##  3 ARE   Asia      9176.                   0.00143 United Ar…              0.526
+##  4 ARG   LAC      44583.                   0.0924  Argentina              10.4  
+##  5 ATG   LAC         91.9                  0.0206  Antigua a…              6.46 
+##  6 AUS   Oceania  25170.                   0.00127 Australia               0.209
+##  7 BEL   Europe   11480.                   0.00295 Belgium                 0.198
+##  8 BEN   Africa   12114.                   0.139   Benin                  11.3  
+##  9 BFA   Africa   20671.                   0       Burkina F…             15.6  
+## 10 BGD   Asia    164605.                   0.151   Bangladesh              6.27 
+## # ℹ 2 more variables: total_mismanage_plastic &lt;dbl&gt;,
+## #   pct_mismanaged_plastic_ocean &lt;dbl&gt;</code></pre>
 </div>
 </div>
 

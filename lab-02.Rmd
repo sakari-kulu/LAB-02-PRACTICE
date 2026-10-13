@@ -80,7 +80,9 @@ plastic_data_all %>% head(n=10)
 
 ```{r Ex1, message = FALSE}
 # Write your code here to answer exercise 1
-
+plastic_data_all %>%
+  count(region)
+  
 
 
 ```
@@ -91,8 +93,12 @@ plastic_data_all %>% head(n=10)
 
 ```{r Ex2, message = FALSE}
 # Write your code here to answer exercise 2
+plastic_data_all <- plastic_data_all %>%
+  mutate(total_mismanage_plastic = mismanaged_plastic * population)
 
-
+plastic_data_all %>%
+  group_by(region) %>%
+  summarise(avg_total = mean(total_mismanage_plastic))
 
 ```
 
@@ -101,9 +107,15 @@ plastic_data_all %>% head(n=10)
 
 ```{r Ex3, message = FALSE}
 # Write your code here to answer exercise 3
+plastic_data_all <- plastic_data_all %>%
+  mutate(pct_mismanaged_plastic_ocean = mismanaged_plastic_ocean/mismanaged_plastic) %>% drop_na()
 
+plastic_data_all %>% 
+  group_by(region) %>%
+  summarise( med_reg = median(pct_mismanaged_plastic_ocean))
 
-
+plastic_data_all %>%
+  filter(code == "SOM")
 ```
 
 
@@ -111,7 +123,15 @@ plastic_data_all %>% head(n=10)
 
 ```{r Ex4, message = FALSE}
 # Write your code here to answer exercise 4
+plastic_data_all <- plastic_data_all %>%
+  rename(
+    pop = population
+  )
 
+plastic_data_all <- plastic_data_all %>%
+  mutate(region = str_replace_all(region, "Latin America and The Caribbean", "LAC"))
+
+plastic_data_all %>% head(n = 10)
 
 
 ```
