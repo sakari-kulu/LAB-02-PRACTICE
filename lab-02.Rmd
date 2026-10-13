@@ -17,19 +17,19 @@ library(readxl)
 
 ```{r load-data, message = FALSE}
 # Member 2 (pair 1) write code to load File 1 data here:
-
+data1 <- read_csv("data/mismanaged-plastic-waste-per-capita.csv")
 
 
 # Member 4 (pair 2) write code to load File 2 data here:
-
+data2 <- read_csv2("data/per-capita-ocean-plastic-waste.txt")
 
 
 # Member 1 (pair 1) write code to load File 3 data here:
-
+data3 <- read_tsv("data/UN_country_population.tsv")
 
 
 # Member 3 (pair 2) write code to load File 4 data here:
-
+data4 <- read_excel("data/UN_country_region.xlsx")
 
 
 ```
@@ -39,21 +39,27 @@ library(readxl)
 ```{r join-data, message = FALSE}
 # Member 2 (pair 1) write code to create object 'plastic_data_all':
 
-
+plastic_data_all <- data1
 
 
 # Member 4 (pair 2) write code to join your data to 'plastic_data_all':
-
+plastic_data_all <- data2 %>%
+  select(-name) %>%
+  left_join(plastic_data_all, by = "code")
 
 
 
 # Member 1 (pair 1) write code to join your data to 'plastic_data_all':
-
+plastic_data_all <- data3 %>%
+  select(-name) %>%
+right_join(plastic_data_all, by = "code")
 
 
 
 # Member 3 (pair 2) write code to join your data to 'plastic_data_all':
-
+plastic_data_all <- data4 %>%
+  select(-name) %>%
+  right_join(plastic_data_all,by = "code") 
 
 
 ```
@@ -62,7 +68,7 @@ library(readxl)
 ```{r print-data, message = FALSE}
 # Member 2 (pair 1) adds code here to view the first 10 rows of 'plastic_data_all'
 
-
+plastic_data_all %>% head(n=10)
 
 ```
 
